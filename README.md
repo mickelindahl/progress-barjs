@@ -31,6 +31,8 @@ A small library that shows a progress bar in terminal
 
 ```
 
+![alt tag] (https://github.com/mickelindahl/progress-barjs/blob/master/example.PNG)
+
 ## Tests
 
   Lab.cmd
