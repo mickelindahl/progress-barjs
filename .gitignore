@@ -1,0 +1,15 @@
+# Dependency directory
+# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
+node_modules
+
+# Ignore Idea stuff
+.idea
+
+#Log stuff
+*.log
+
+#Don't put environment variable in repo
+testenv
+
+#Screenshots from test
+test/*.png
