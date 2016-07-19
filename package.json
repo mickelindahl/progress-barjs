@@ -4,7 +4,7 @@
   "description": "Progress bar for stdout",
   "main": "index.js",
   "scripts": {
-    "test": "lab"
+    "test": "node_modules/.bin/lab"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "bar"
   ],
   "author": "Mikael Lindahl",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/mickelindahl/progress-barjs/issues"
   },
