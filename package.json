@@ -1,6 +1,6 @@
 {
   "name": "progress-barjs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Progress bar for stdout",
   "main": "index.js",
   "scripts": {

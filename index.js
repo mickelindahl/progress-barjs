@@ -64,6 +64,7 @@ Bar.prototype.tick = function (text) {
 
     if (this.counter == this.total) {
         this.complete=true
+        console.log(' '); //insert rowbreak
     };
 };
 
