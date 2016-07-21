@@ -25,7 +25,7 @@ lab.experiment('bar', function () {
 
 
         var bar = new Bar(options);
-        var i=0;
+        var i=1;
         var timer = setInterval(function () {
             bar.tick('Tick number '+i);
             if (bar.complete) {
