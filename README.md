@@ -33,7 +33,7 @@ A small library that shows a progress bar in terminal
 
 ```
 
-![](https://github.com/mickelindahl/progress-barjs/blob/master/example.PNG)
+![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/example.PNG)
 ## Tests
 
   Lab.cmd
