@@ -9,13 +9,8 @@
  *   - `label` label for bar to show
  *   - `total` total number of ticks to complete
  *   - 'append' If true show accumulated tick text separated with cmoma
- *   - `stream` the output stream defaulting to stderr
- *   - `complete` completion character defaulting to "="
- *   - `incomplete` incomplete character defaulting to "-"
- *   - `renderThrottle` minimum time between updates in milliseconds defaulting to 16
- *   - `callback` optional function to call when the progress bar completes
- *   - `clear` will clear the progress bar upon termination
- *
+ *   - `time` show elapsed time (boolean)
+ *   
  *   @param {object} options
  *   @api public
  */
@@ -26,6 +21,8 @@ function Bar(options) {
     this.counter = 0;
     this.append = options.append;
     this.complete = false;
+    this.time=options.time || false;
+    this.timer=undefined;
 }
 
 
@@ -36,6 +33,11 @@ function Bar(options) {
  * @api public
  */
 Bar.prototype.tick = function (text) {
+
+    if(this.counter==0  && this.time){
+        this.timer=new Date().valueOf();
+    }
+
     this.counter += 1;
 
     if (this.append) {
@@ -48,7 +50,7 @@ Bar.prototype.tick = function (text) {
         this.text = text;
     }
 
-    //var green_bold = '\x1b[1;33m';
+    var green_bold = '\x1b[1;33m';
     var magenta_bold = '\x1b[1;35m';
     var cyan_bold = '\x1b[1;36m';
     var bold = '\x1b[1;37m';
@@ -59,7 +61,10 @@ Bar.prototype.tick = function (text) {
         ('  ' + Math.round(100 * this.counter / (this.total))).slice(-3) + ' %] ');
     process.stdout.write(magenta_bold + '[' +
         ('   ' + this.counter + '(' + this.total + ')').slice(-String(this.total).length * 4) + '] ')
-
+    if (this.time) {
+        var val=Math.round((new Date().valueOf()-this.timer)/1000);
+        process.stdout.write(green_bold + '[' +val + ' sec] ')
+    }
     process.stdout.write(normal + this.text);
 
     if (this.counter == this.total) {

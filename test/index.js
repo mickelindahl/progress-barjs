@@ -20,7 +20,8 @@ lab.experiment('bar', function () {
 
         var options = {
             label: 'Progress bar',
-            total: 10
+            total: 30,
+            time:true,
         };
 
 
