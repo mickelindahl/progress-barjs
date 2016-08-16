@@ -21,7 +21,7 @@ A small library that shows a progress bar in terminal
 
 
     var bar = new Bar(options);
-    var i=0;
+    var i=1;
     var timer = setInterval(function () {
         bar.tick('Tick number '+i);
         if (bar.complete) {
@@ -33,8 +33,7 @@ A small library that shows a progress bar in terminal
 
 ```
 
-<img src="https://github.com/mickelindahl/progress-barjs/blob/master/example.PNG" />
-
+![](https://github.com/mickelindahl/progress-barjs/blob/master/example.PNG)
 ## Tests
 
   Lab.cmd
@@ -50,3 +49,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 0.1.1 fixed username
 * 0.1.2 previous bars not overwritten
 * 0.1.3 option to show elapsed time
+
