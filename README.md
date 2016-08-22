@@ -57,5 +57,5 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 0.1.2 previous bars not overwritten
 * 0.1.3 option to show elapsed time
 * 0.1.4 fixed screenshot link
-* 0.2.0 added setTotal, setabel and reset methods and removed count print extra space.
+* 0.2.0 added setTotal, setLabel and reset methods and removed count print extra space.
 
