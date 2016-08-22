@@ -40,7 +40,7 @@ lab.experiment('bar', function () {
     lab.test('two in a row', function (done) {
 
         var options = {
-            label: 'First progress bar',
+            label: 'Progress bar',
             total: 5
         };
 
@@ -51,9 +51,10 @@ lab.experiment('bar', function () {
             if (bar.complete) {
                 clearInterval(timer);
 
-                options.label='Second progress bar'
+                bar.setLabel('Progress bar after reset')
+                    .setTotal(10)
+                    .reset();
 
-                bar = new Bar(options);
                 var j=1;
                 timer = setInterval(function () {
                     bar.tick('Tick number '+j);
@@ -69,8 +70,6 @@ lab.experiment('bar', function () {
             }
             i++;
         }, 100);
-
-
 
     });
 

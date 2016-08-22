@@ -1,6 +1,6 @@
 {
   "name": "progress-barjs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Progress bar for stdout",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mickelindahl/progress-barjs#readme",
   "devDependencies": {
-    "lab": "^10.9.0"
+    "code": "^3.0.2",
+    "lab": "^11.0.1"
   }
 }
