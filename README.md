@@ -63,18 +63,18 @@ A small library that shows a progress bar
            - `color` ANSI color
        - `stream` Stream to write to (process.stdout default)
        
-### `tick([text])`
+### `bar.tick([text])`
 Increment the bar with one
 - `text` shown at tick.
 
-### `reset()`
+### `bar.reset()`
 Reset the progress bar
 
 ### `setTotal(total)`
 Change total ticks of the progress bar
 - `total` Total number of ticks
 
-### `setLabel(label)`
+### `bar.setLabel(label)`
 Change the label of the progress bar
 - `label` Progress bar label
 
