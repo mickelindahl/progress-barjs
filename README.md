@@ -106,6 +106,7 @@ let timer= (options, callback) => {
 timer(options, timer)
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/example1.PNG)
+
 Without overwrite and change of color:
 ```js
 var options = {
