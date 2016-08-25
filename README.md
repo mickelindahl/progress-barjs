@@ -9,27 +9,21 @@ A small library that shows a progress bar
 
 ## Usage
 ```js
+const Bar = require('progress-barjs');
+let options = {
+    label: 'Progress bar',
+    total: 30,
+    time:true
+};
 
-    const Bar = require('progress-barjs');
-    let options = {
+let bar = Bar(options);
+let i=1;
+let timer = setInterval(()=>{
 
-        label: 'Progress bar',
-        total: 30,
-        time:true
-
-    };
-
-    let bar = Bar(options);
-    let i=1;
-    let timer = setInterval(()=>{
-  
-        bar.tick('Tick number '+i);
-        if (bar.complete){clearInterval(timer);}
-
-        i++;
-
-    }, 100);
-
+    bar.tick('Tick number '+i);
+    if (bar.complete){clearInterval(timer);}
+    i++;
+}, 100);
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example.PNG)
 ## API
@@ -81,7 +75,6 @@ Change the label of the progress bar
 ### Examples
 Two in a row:
 ```js
-
 let options = {
     label: 'Progress bar',
     total: 5
@@ -93,6 +86,7 @@ let timer= (options, callback) => {
     let i = 1;
 
     timer = setInterval(()=>{
+    
         bar.tick('Tick number '+i);
         if (bar.complete) {
             clearInterval(timer);
@@ -110,7 +104,6 @@ timer(options, timer)
 
 Without overwrite and change of color:
 ```js
-
 let options = {
     label: 'Progress bar without overwrite',
     total: 33,
@@ -128,10 +121,10 @@ let options = {
 let bar = Bar(options);
 let i=1;
 let timer = setInterval(()=>{
+
     bar.tick('Tick number '+i);
     if (bar.complete) {
         clearInterval(timer);
-        done();
     }
     i++;
 }, 100);
@@ -156,3 +149,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 0.1.4 fixed screenshot link
 * 0.2.0 added setTotal, setLabel and reset methods and removed count print extra space
 * 1.0.0 Bar is now created without new, bar progress, new type of bar without overwrite, improved control of bar appearance (color, show/hide information)  
+* 1.0.1 Small fix
