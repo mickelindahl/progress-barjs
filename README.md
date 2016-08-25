@@ -31,7 +31,7 @@ A small library that shows a progress bar
     }, 100);
 
 ```
-![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/example.PNG)
+![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example.PNG)
 ## API
 ### `Bar([options])`
 
@@ -105,7 +105,7 @@ let timer= (options, callback) => {
 };
 timer(options, timer)
 ```
-![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/example1.PNG)
+![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example1.PNG)
 
 Without overwrite and change of color:
 ```js
@@ -135,7 +135,7 @@ var timer = setInterval(function () {
 }, 100);
 });
 ```
-![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/example2.PNG)
+![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example2.PNG)
 ## Tests
 
   Lab.cmd

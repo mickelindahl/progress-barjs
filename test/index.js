@@ -28,7 +28,7 @@ lab.experiment('bar', function () {
         var bar = Bar(options);
         var i = 1;
         var timer = setInterval(function () {
-            if (bar.counter>24){return}
+            // if (bar.counter>24){return}
             bar.tick('Tick number ' + i);
             if (bar.complete) {
                 clearInterval(timer);
@@ -91,7 +91,7 @@ lab.experiment('bar', function () {
         var bar = Bar(options);
         var i=1;
         var timer = setInterval(function () {
-            // if (bar.counter>25){return}
+            if (bar.counter>25){return}
             bar.tick('Tick number '+i);
             if (bar.complete) {
                 clearInterval(timer);
