@@ -11,7 +11,7 @@ A small library that shows a progress bar
 ```js
 
     const Bar = require('progress-barjs');
-    var options = {
+    let options = {
 
         label: 'Progress bar',
         total: 30,
@@ -19,9 +19,9 @@ A small library that shows a progress bar
 
     };
 
-    var bar = Bar(options);
-    var i=1;
-    var timer = setInterval(function () {
+    let bar = Bar(options);
+    let i=1;
+    let timer = setInterval(()=>{
   
         bar.tick('Tick number '+i);
         if (bar.complete){clearInterval(timer);}
@@ -38,16 +38,16 @@ A small library that shows a progress bar
 - `options` Object with the following keys:
     - `label` Process bar label
     - `total` Total number of ticks to complete
-    - 'append' If true show accumulated tick text separated with comma
+    - `append` If true show accumulated tick text separated with comma
     - `show` Show configuration object with the following keys:
-       - `active` Which bars to show
+       - `active` Which bars items to show
            - `bar` true|false
            - `percent` true|false
            - `count` true|false
            - `time` true|false
        - `overwrite` If bar should do line overwrite true|false
        - `label` Object with the following keys:
-           - color` ANSI color as string
+           - `color` ANSI color as string
        - `bar` Object with the following keys:
            - `color` ANSI color
            - `length` bar length
@@ -81,7 +81,8 @@ Change the label of the progress bar
 ### Examples
 Two in a row:
 ```js
-var options = {
+
+let options = {
     label: 'Progress bar',
     total: 5
 };
@@ -91,7 +92,7 @@ let timer= (options, callback) => {
 
     let i = 1;
 
-    timer = setInterval(function () {
+    timer = setInterval(()=>{
         bar.tick('Tick number '+i);
         if (bar.complete) {
             clearInterval(timer);
@@ -109,7 +110,8 @@ timer(options, timer)
 
 Without overwrite and change of color:
 ```js
-var options = {
+
+let options = {
     label: 'Progress bar without overwrite',
     total: 33,
     show:{
@@ -123,9 +125,9 @@ var options = {
     }
 };
 
-var bar = Bar(options);
-var i=1;
-var timer = setInterval(function () {
+let bar = Bar(options);
+let i=1;
+let timer = setInterval(()=>{
     bar.tick('Tick number '+i);
     if (bar.complete) {
         clearInterval(timer);
@@ -133,7 +135,7 @@ var timer = setInterval(function () {
     }
     i++;
 }, 100);
-});
+timer(options, timer)
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example2.PNG)
 ## Tests

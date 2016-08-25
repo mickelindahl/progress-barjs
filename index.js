@@ -7,16 +7,16 @@
  * - `options` Object with the following keys:
  *   - `label` Process bar label
  *   - `total` Total number of ticks to complete
- *   - 'append' If true show accumulated tick text separated with comma
+ *   - `append` If true show accumulated tick text separated with comma
  *   - `show` Show configuration object with the following keys:
- *      - `active` Which bars to show
+ *      - `active` Which bar items to show
  *          - `bar` true|false
  *          - `percent` true|false
  *          - `count` true|false
  *          - `time` true|false
  *      - `overwrite` If bar should do line overwrite true|false
  *      - `label` Object with the following keys:
- *          - color` ANSI color as string
+ *          - `color` ANSI color as string
  *      - `bar` Object with the following keys:
  *          - `color` ANSI color
  *          - `length` bar length

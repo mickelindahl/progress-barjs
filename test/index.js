@@ -9,26 +9,26 @@ const Lab=require('lab');
 const Fs = require('fs');
 const Bar = require('../index.js');
 
-var lab = exports.lab = Lab.script();
+let lab = exports.lab = Lab.script();
 
-lab.experiment('bar', function () {
+lab.experiment('bar', ()=>{
 
-    lab.before({}, function (done) {
+    lab.before({}, (done)=>{
         done();
     });
 
-    lab.test('tick', function (done) {
+    lab.test('tick', (done)=>{
         console.log('')
-        var options = {
+        let options = {
             label: 'Progress bar',
             total: 30,
             time: true,
         };
 
-        var bar = Bar(options);
-        var i = 1;
-        var timer = setInterval(function () {
-            if (bar.counter>24){return}
+        let bar = Bar(options);
+        let i = 1;
+        let timer = setInterval(()=>{
+            // if (bar.counter>24){return}
             bar.tick('Tick number ' + i);
             if (bar.complete) {
                 clearInterval(timer);
@@ -38,10 +38,10 @@ lab.experiment('bar', function () {
         }, 100);
     });
 
-    lab.test('two in a row', function (done) {
+    lab.test('two in a row', (done)=> {
         console.log('\n');
 
-        var options = {
+        let options = {
             label: 'Progress bar',
             total: 5
         };
@@ -51,7 +51,7 @@ lab.experiment('bar', function () {
 
             let i = 1;
 
-            timer = setInterval(function () {
+            timer = setInterval(()=>{
 
                 // if (bar.counter>7){return}
                 bar.tick('Tick number '+i);
@@ -70,10 +70,10 @@ lab.experiment('bar', function () {
         console.log('\n');
     });
 
-    lab.test('Without overwrite', function (done) {
+    lab.test('Without overwrite', (done)=> {
         console.log('\n');
 
-        var options = {
+        let options = {
             label: 'Progress bar without overwrite',
             total: 33,
 
@@ -88,9 +88,9 @@ lab.experiment('bar', function () {
             }
         };
 
-        var bar = Bar(options);
-        var i=1;
-        var timer = setInterval(function () {
+        let bar = Bar(options);
+        let i=1;
+        let timer = setInterval(()=>{
             // if (bar.counter>25){return}
             bar.tick('Tick number '+i);
             if (bar.complete) {
