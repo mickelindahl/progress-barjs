@@ -19,7 +19,7 @@ A small library that shows a progress bar
 
     };
 
-    var bar = new Bar(options);
+    var bar = Bar(options);
     var i=1;
     var timer = setInterval(function () {
   
