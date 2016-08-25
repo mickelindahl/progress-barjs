@@ -70,7 +70,7 @@ Increment the bar with one
 ### `bar.reset()`
 Reset the progress bar
 
-### `setTotal(total)`
+### `bar.setTotal(total)`
 Change total ticks of the progress bar
 - `total` Total number of ticks
 
