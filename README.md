@@ -8,7 +8,31 @@ A small library that shows a progress bar
   npm install progress-barjs
 
 ## Usage
+```js
 
+    const Bar = require('progress-barjs');
+    var options = {
+
+        label: 'Progress bar',
+        total: 30,
+        time:true
+
+    };
+
+    var bar = new Bar(options);
+    var i=1;
+    var timer = setInterval(function () {
+  
+        bar.tick('Tick number '+i);
+        if (bar.complete){clearInterval(timer);}
+
+        i++;
+
+    }, 100);
+
+```
+![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/example.PNG)
+## API
 ### `Bar([options])`
 
 - `options` Object with the following keys:
@@ -38,32 +62,7 @@ A small library that shows a progress bar
        - `tick` Object with the following keys:
            - `color` ANSI color
        - `stream` Stream to write to (process.stdout default)
-
-```js
-
-    const Bar = require('progress-barjs');
-    var options = {
-
-        label: 'Progress bar',
-        total: 30,
-        time:true
-
-    };
-
-    var bar = new Bar(options);
-    var i=1;
-    var timer = setInterval(function () {
-  
-        bar.tick('Tick number '+i);
-        if (bar.complete){clearInterval(timer);}
-
-        i++;
-
-    }, 100);
-
-```
-
-## Methods
+       
 ### `tick([text])`
 Increment the bar with one
 - `text` shown at tick.
