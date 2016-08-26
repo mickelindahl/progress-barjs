@@ -27,7 +27,7 @@ let timer = setInterval(()=>{
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example.PNG)
 ## API
-### `Bar([options])`
+### `Bar([options, draw])`
 
 - `options` Object with the following keys:
     - `label` Process bar label
@@ -47,6 +47,7 @@ let timer = setInterval(()=>{
            - `length` bar length
            - `completed` character to show fro complete bar tick
            - `incompleted` character to show fro incompleted bar
+           - `tick_per_progress` number of tick one progress step represents (only applicable with overwrite=false)
        - `percent` Object with the following keys:
            - `color` ANSI color
        - `count` Object with the following keys:
@@ -56,7 +57,8 @@ let timer = setInterval(()=>{
        - `tick` Object with the following keys:
            - `color` ANSI color
        - `stream` Stream to write to (process.stdout default)
-       
+- `draw` Custom draw function
+
 ### `bar.tick([text])`
 Increment the bar with one
 - `text` shown at tick.
@@ -71,6 +73,10 @@ Change total ticks of the progress bar
 ### `bar.setLabel(label)`
 Change the label of the progress bar
 - `label` Progress bar label
+
+### `bar.defaultFormat(label)`
+Progress bar components
+- `type` Format type "percent" | "count" | "time" | "tick" | "bar"  
 
 ### Examples
 Two in a row:
@@ -131,6 +137,43 @@ let timer = setInterval(()=>{
 timer(options, timer)
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example2.PNG)
+
+With custom draw function:
+```js
+let options = {
+    label: 'Assume progress bar',
+    total: 33
+};
+
+let draw=(bar)=>{
+
+    let str=util.format(
+        '\r%s%s | %s | %s%s miliseconds%s ',
+        '\x1b[0;34m',
+        bar.label,
+        bar.defaultFormats('bar'), // pull in default progress bar
+        bar.show.time.color,
+        Math.round((new Date().valueOf() - bar.timer)),
+        '\x1b[0;37m' // end with white
+    );
+
+    bar.stream.write(str); //show
+};
+
+let bar = Bar(options, draw);
+let i=1;
+let timer = setInterval(()=>{
+    // if (bar.counter>25){return}
+    bar.tick('Tick number '+i);
+    if (bar.complete) {
+        clearInterval(timer);
+        done();
+    }
+    i++;
+}, 100);
+timer(options, timer)
+```
+![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example3.PNG)
 ## Tests
 
   Lab.cmd
@@ -150,3 +193,5 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 0.2.0 added setTotal, setLabel and reset methods and removed count print extra space
 * 1.0.0 Bar is now created without new, bar progress, new type of bar without overwrite, improved control of bar appearance (color, show/hide information)  
 * 1.0.1 Small fix
+* 1.0.2 Without overwrite bug fix
+* 1.1.0 Added custom draw function, tick_per_progress option for bar without overwrite and deafaultFormat function

@@ -81,7 +81,9 @@ lab.experiment('bar', ()=>{
                 overwrite:false,
                 bar:{
                     color:'\x1b[0;31m',
-                    completed:'.'},
+                    completed:'.',
+                    tick_per_progress:2
+                },
                 percent:{color:'\x1b[1;37m'},
                 count:{color:'\x1b[0;36m'},
                 time:{color:'\x1b[0;34m'}
@@ -101,4 +103,41 @@ lab.experiment('bar', ()=>{
         }, 100);
     });
 
+
+
+    lab.test('Custom draw function', (done)=> {
+        console.log('\n');
+        let util=require('util');
+        let options = {
+            label: 'Assume progress bar',
+            total: 33
+        };
+
+        let draw=(bar)=>{
+
+            let str=util.format(
+                '\r%s%s | %s | %s%s miliseconds%s ',
+                '\x1b[0;34m',
+                bar.label,
+                bar.defaultFormats('bar'), // pull in default progress bar
+                bar.show.time.color,
+                Math.round((new Date().valueOf() - bar.timer)),
+                '\x1b[0;37m' // end with white
+            );
+
+            bar.stream.write(str); //show
+        };
+
+        let bar = Bar(options, draw);
+        let i=1;
+        let timer = setInterval(()=>{
+            // if (bar.counter>20){return}
+            bar.tick('Tick number '+i);
+            if (bar.complete) {
+                clearInterval(timer);
+                done();
+            }
+            i++;
+        }, 100);
+    });
 });
