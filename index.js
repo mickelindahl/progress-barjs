@@ -198,14 +198,14 @@ Bar.prototype.defaultFormats = function(type){
         );
     }else if(type=='count') {
         str += util.format(
-            '[%s%s(%s)] ',
+            '%s[%s(%s)] ',
             this.show.count.color,
             ('     ' + this.counter).slice(-String(this.total).length),
             this.total
         );
     } else if(type=='time'){
         str+=util.format(
-            '[%s%s sec] ',
+            '%s[%s sec] ',
             this.show.time.color,
             Math.round((new Date().valueOf() - this.timer) / 1000)
         )
