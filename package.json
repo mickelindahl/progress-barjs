@@ -1,7 +1,7 @@
 {
   "name": "progress-barjs",
-  "version": "1.1.0",
-  "description": "Progress bar for a stream",
+  "version": "1.1.1",
+  "description": "A customizable progress bar for NodeJS",
   "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/lab"
@@ -12,7 +12,21 @@
   },
   "keywords": [
     "progress",
-    "bar"
+    "progress-bar",
+    "gui",
+    "cli",
+    "bar",
+    "progress",
+    "percentage",
+    "percent",
+    "download",
+    "upload",
+    "file",
+    "streaming",
+    "request",
+    "http",
+    "log",
+    "terminal"
   ],
   "author": "Mikael Lindahl",
   "license": "MIT",
