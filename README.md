@@ -27,7 +27,7 @@ let timer = setInterval(()=>{
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example.PNG)
 ## API
-### `Bar([options, draw])`
+### `Bar([options][,draw])`
 
 - `options` Object with the following keys:
     - `label` Process bar label
@@ -61,7 +61,7 @@ let timer = setInterval(()=>{
 
 ### `bar.tick([text])`
 Increment the bar with one
-- `text` shown at tick.
+- `text` Text shown at tick.
 
 ### `bar.reset()`
 Reset the progress bar
@@ -74,7 +74,7 @@ Change total ticks of the progress bar
 Change the label of the progress bar
 - `label` Progress bar label
 
-### `bar.defaultFormat(label)`
+### `bar.defaultFormat(type)`
 Progress bar components
 - `type` Format type "percent" | "count" | "time" | "tick" | "bar"  
 
@@ -194,4 +194,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 1.0.0 Bar is now created without new, bar progress, new type of bar without overwrite, improved control of bar appearance (color, show/hide information)  
 * 1.0.1 Small fix
 * 1.0.2 Without overwrite bug fix
-* 1.1.0 Added custom draw function, tick_per_progress option for bar without overwrite and deafaultFormat function
+* 1.1.0 Added custom draw function, tick_per_progress to `option.show.bar` for bar without overwrite and deafaultFormat function
