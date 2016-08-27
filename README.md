@@ -1,7 +1,6 @@
-![](https://travis-ci.org/mickelindahl/progress-barjs.svg?branch=master)
-
 Progress barjs
 ==============
+![](https://travis-ci.org/mickelindahl/progress-barjs.svg?branch=master)
 
 A small library that shows a progress bar 
 
