@@ -212,6 +212,7 @@ Bar.prototype.defaultFormats = function(type){
     }else if(type=='tick'){
         str+=this.show.tick.color + this.text+'\x1b[0;37m'; // end with white
     }else if(type=='bar' && this.show.overwrite){
+
         let n_dots= Math.round(this.show.bar.length *(this.counter / this.total));
 
         let completed='';
@@ -259,7 +260,7 @@ Bar.prototype._draw=function(){
     if (this.show.overwrite) {
 
         info=util.format('%s%s',
-                    this.defaultFormats(this.show.active.bar ? 'single_row_bar' : ''),
+                    this.defaultFormats(this.show.active.bar ? 'bar' : ''),
                     info);
 
         let progress=util.format(

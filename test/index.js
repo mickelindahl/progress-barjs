@@ -22,7 +22,6 @@ lab.experiment('bar', ()=>{
         let options = {
             label: 'Progress bar',
             total: 30,
-            time: true,
         };
 
         let bar = Bar(options);
@@ -43,7 +42,7 @@ lab.experiment('bar', ()=>{
 
         let options = {
             label: 'Progress bar',
-            total: 5
+            total: 5,
         };
 
         let bar = Bar(options);
@@ -110,7 +109,13 @@ lab.experiment('bar', ()=>{
         let util=require('util');
         let options = {
             label: 'Assume progress bar',
-            total: 33
+            total: 33,
+            show: {
+                bar: {
+                    completed: '\x1b[47m \x1b[0;37m',
+                    incompleted: ' ',
+                }
+            }
         };
 
         let draw=(bar)=>{
