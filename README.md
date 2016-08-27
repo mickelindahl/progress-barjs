@@ -144,7 +144,13 @@ With custom draw function:
 ```js
 let options = {
     label: 'Assume progress bar',
-    total: 33
+    total: 33,
+    show: {
+        bar: {
+            completed: '\x1b[47m \x1b[0;37m',
+            incompleted: ' ',
+        }
+    }
 };
 
 let draw=(bar)=>{
@@ -199,3 +205,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 1.1.1 Changed package.json
 * 1.1.2 travis + coveralls
 * 1.1.3 Example fix
+* 1.1.4 Example fix again
