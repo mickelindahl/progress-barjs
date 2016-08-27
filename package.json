@@ -36,7 +36,7 @@
   "homepage": "https://github.com/mickelindahl/progress-barjs#readme",
   "devDependencies": {
     "code": "^3.0.2",
-    "lab": "^11.0.1"
+    "lab": "^11.0.1",
     "coveralls": "^2.11.12"
   }
 }
