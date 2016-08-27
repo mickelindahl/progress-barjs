@@ -4,7 +4,7 @@
   "description": "A customizable progress bar for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/lab"
+    "test": "node_modules/.bin/lab -m 10000"
   },
   "repository": {
     "type": "git",
