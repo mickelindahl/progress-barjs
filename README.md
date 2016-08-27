@@ -169,7 +169,6 @@ let timer = setInterval(()=>{
     bar.tick('Tick number '+i);
     if (bar.complete) {
         clearInterval(timer);
-        done();
     }
     i++;
 }, 100);
