@@ -1,3 +1,5 @@
+![](https://travis-ci.org/mickelindahl/progress-barjs.svg?branch=master)
+
 Progress barjs
 ==============
 
