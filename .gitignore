@@ -13,3 +13,6 @@ testenv
 
 #Screenshots from test
 test/*.png
+
+# No coverall
+.coveralls.yml

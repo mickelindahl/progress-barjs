@@ -198,3 +198,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 1.0.2 Without overwrite bug fix
 * 1.1.0 Added custom draw function, tick_per_progress to `option.show.bar` for bar without overwrite and deafaultFormat function
 * 1.1.1 Changed package.json
+* 1.1.2 travis + coveralls
