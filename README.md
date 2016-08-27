@@ -1,6 +1,7 @@
 Progress barjs
 ==============
-![](https://travis-ci.org/mickelindahl/progress-barjs.svg?branch=master)
+[![Build Status](https://travis-ci.org/mickelindahl/progress-barjs.svg?branch=master)](https://travis-ci.org/mickelindahl/progress-barjs)
+[![Coverage Status](https://coveralls.io/repos/github/mickelindahl/progress-barjs/badge.svg?branch=master)](https://coveralls.io/github/mickelindahl/progress-barjs?branch=master)
 
 A small library that shows a progress bar 
 
