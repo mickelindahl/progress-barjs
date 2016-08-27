@@ -4,7 +4,7 @@
   "description": "A customizable progress bar for NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/lab -m 10000"
+    "test": "node_modules/.bin/lab -m 10000 -r lcov | ./node_modules/.bin/coveralls"
   },
   "repository": {
     "type": "git",
@@ -37,5 +37,6 @@
   "devDependencies": {
     "code": "^3.0.2",
     "lab": "^11.0.1"
+    "coveralls": "^2.11.12"
   }
 }
