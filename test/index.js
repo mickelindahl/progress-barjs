@@ -149,8 +149,7 @@ lab.experiment('bar', ()=>{
 
     lab.test('test JSON.stringify', (done)=> {
         let bar = Bar();
-
-        JSON.stringify(bar)
+        bar=JSON.stringify(bar);
         done()
 
     });
