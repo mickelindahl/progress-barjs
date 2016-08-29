@@ -35,7 +35,7 @@ let _stream;
  *      - `tick` Object with the following keys:
  *          - `color` ANSI color
  *      - `stream` Stream to write to (process.stdout default)
- * - `draw` Custom draw function `()=>(bar, stream){ The magic ... )`
+ * - `draw` Custom draw function `(bar, stream)=>{ The magic ... )`
  *
  *   @param {object} options
  *   @api public
