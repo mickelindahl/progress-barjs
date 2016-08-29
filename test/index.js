@@ -74,7 +74,7 @@ lab.experiment('bar', ()=>{
 
         let options = {
             label: 'Progress bar without overwrite',
-            total: 33,
+            total: 5,
 
             show:{
                 overwrite:false,
@@ -101,8 +101,6 @@ lab.experiment('bar', ()=>{
             i++;
         }, 100);
     });
-
-
 
     lab.test('Custom draw function', (done)=> {
         console.log('\n');

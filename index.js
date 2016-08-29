@@ -328,8 +328,7 @@ Bar.prototype._draw=function(){
         }else if(this.counter == this.total) {
 
             let space = '';
-
-            if ((this.bar_tick % this.show.bar.length) < this.show.bar.length-1) {
+            if (((this.bar_tick % this.show.bar.length) < this.show.bar.length-1) && this.bar_tick>this.show.bar.length){
 
                 for (let i = 0; i < this.show.bar.length - 1 - ((this.bar_tick-1) % this.show.bar.length); i++) {
                     space += ' '
