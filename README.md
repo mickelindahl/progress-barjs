@@ -150,3 +150,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 0.2.0 added setTotal, setLabel and reset methods and removed count print extra space
 * 1.0.0 Bar is now created without new, bar progress, new type of bar without overwrite, improved control of bar appearance (color, show/hide information)  
 * 1.0.1 Small fix
+* 1.0.2 Without overwrite bug fix

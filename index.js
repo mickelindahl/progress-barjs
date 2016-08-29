@@ -57,7 +57,8 @@ function Bar(options) {
             length: 10,
             color: '\x1b[0;37m', // white
             completed:'=',
-            incompleted:'_'
+            incompleted:'_',
+            scale:1
         },
         percent: {
             color: '\x1b[1;36m', //cyan bold
@@ -222,7 +223,7 @@ Bar.prototype._draw=function(){
 
     if ( !this.show.overwrite ) {
 
-        let n = 10;
+        let n = this.show.bar.length || 10;
         let str = '';
 
         if (this.counter - 1 == 0) {
@@ -231,6 +232,7 @@ Bar.prototype._draw=function(){
             this.stream.write(str);
             return
         }
+
 
         if (this.show.active.bar){
 
@@ -245,7 +247,7 @@ Bar.prototype._draw=function(){
                 if ((this.counter % n) == 1) {
                     str += this.show.bar.color + '['
                 }
-                str += (this.show.bar.completed || '.')+']' + space
+                str += (this.show.bar.completed || '.')+'] ' + space
 
             } else if (((this.counter - 1) % n) == 0) {
 
@@ -254,12 +256,13 @@ Bar.prototype._draw=function(){
             }
             else if (((this.counter - 1) % n) == n - 1) {
 
-                str += (this.show.bar.completed || '.')+']';
+                str += (this.show.bar.completed || '.')+'] ';
 
             } else {
 
                 str += (this.show.bar.completed || '.');
             }
+
         }
         if(this.counter == this.total || (((this.counter - 1) % n) == n - 1)){
             str+=info+'\n'

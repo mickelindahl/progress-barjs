@@ -17,58 +17,58 @@ lab.experiment('bar', ()=>{
         done();
     });
 
-    lab.test('tick', (done)=>{
-        console.log('')
-        let options = {
-            label: 'Progress bar',
-            total: 30,
-            time: true,
-        };
-
-        let bar = Bar(options);
-        let i = 1;
-        let timer = setInterval(()=>{
-            // if (bar.counter>24){return}
-            bar.tick('Tick number ' + i);
-            if (bar.complete) {
-                clearInterval(timer);
-                done();
-            }
-            i++;
-        }, 100);
-    });
-
-    lab.test('two in a row', (done)=> {
-        console.log('\n');
-
-        let options = {
-            label: 'Progress bar',
-            total: 5
-        };
-
-        let bar = Bar(options);
-        let timer= (options, callback) => {
-
-            let i = 1;
-
-            timer = setInterval(()=>{
-
-                // if (bar.counter>7){return}
-                bar.tick('Tick number '+i);
-                if (bar.complete) {
-                    clearInterval(timer);
-                    bar.setLabel('Progress bar after reset')
-                        .setTotal(10)
-                        .reset();
-                    if (callback){callback(options,()=>{done()});}
-                }
-                i++;
-            }, 100);
-        };
-        timer(options, timer)
-
-        console.log('\n');
-    });
+    // lab.test('tick', (done)=>{
+    //     console.log('')
+    //     let options = {
+    //         label: 'Progress bar',
+    //         total: 30,
+    //         time: true,
+    //     };
+    //
+    //     let bar = Bar(options);
+    //     let i = 1;
+    //     let timer = setInterval(()=>{
+    //         // if (bar.counter>24){return}
+    //         bar.tick('Tick number ' + i);
+    //         if (bar.complete) {
+    //             clearInterval(timer);
+    //             done();
+    //         }
+    //         i++;
+    //     }, 100);
+    // });
+    //
+    // lab.test('two in a row', (done)=> {
+    //     console.log('\n');
+    //
+    //     let options = {
+    //         label: 'Progress bar',
+    //         total: 5
+    //     };
+    //
+    //     let bar = Bar(options);
+    //     let timer= (options, callback) => {
+    //
+    //         let i = 1;
+    //
+    //         timer = setInterval(()=>{
+    //
+    //             // if (bar.counter>7){return}
+    //             bar.tick('Tick number '+i);
+    //             if (bar.complete) {
+    //                 clearInterval(timer);
+    //                 bar.setLabel('Progress bar after reset')
+    //                     .setTotal(10)
+    //                     .reset();
+    //                 if (callback){callback(options,()=>{done()});}
+    //             }
+    //             i++;
+    //         }, 100);
+    //     };
+    //     timer(options, timer)
+    //
+    //     console.log('\n');
+    // });
 
     lab.test('Without overwrite', (done)=> {
         console.log('\n');
@@ -80,11 +80,15 @@ lab.experiment('bar', ()=>{
             show:{
                 overwrite:false,
                 bar:{
+                    length:15,
                     color:'\x1b[0;31m',
-                    completed:'.'},
+                    completed:'.',
+                    modulus: 2,
+                },
                 percent:{color:'\x1b[1;37m'},
                 count:{color:'\x1b[0;36m'},
-                time:{color:'\x1b[0;34m'}
+                time:{color:'\x1b[0;34m'},
+
             }
         };
 
