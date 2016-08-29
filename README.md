@@ -206,4 +206,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 1.1.2 travis + coveralls
 * 1.1.3 Example fix
 * 1.1.4 Example fix again
-* 1.1.5 Bug fix, circular dependencies when stringify a bar
+* 2.0.0 Change api for draw function, bug fix, circular dependencies when stringify a bar
