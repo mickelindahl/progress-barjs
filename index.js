@@ -3,6 +3,9 @@
  */
 'use strict';
 
+const util=require('util');
+let _stream;
+
 /**
  * - `options` Object with the following keys:
  *   - `label` Process bar label
@@ -22,6 +25,7 @@
  *          - `length` bar length
  *          - `completed` character to show fro complete bar tick
  *          - `incompleted` character to show fro incompleted bar
+ *          - `tick_per_progress` number of tick one progress step represents (only applicable with overwrite=false)
  *      - `percent` Object with the following keys:
  *          - `color` ANSI color
  *      - `count` Object with the following keys:
@@ -31,17 +35,27 @@
  *      - `tick` Object with the following keys:
  *          - `color` ANSI color
  *      - `stream` Stream to write to (process.stdout default)
+ * - `draw` Custom draw function '()=>(bar, stream){ The magic ... )
  *
  *   @param {object} options
  *   @api public
  */
 
-function Bar(options) {
+function Bar(options, draw) {
+
+    options=options || {};
+    _stream = options.stream || process.stdout; //set stream, avoid set it on object to avoid circular dependencies
+
+    this.draw=draw;
+
     this.label = options.label || 'Processing';
     this.total = options.total;
     this.counter = 0;
+    this.bar_tick=0;
     this.append = options.append;
     this.complete = false;
+    this.new_line=true;
+
     this.show = {
         active: {
             bar:true,
@@ -58,7 +72,7 @@ function Bar(options) {
             color: '\x1b[0;37m', // white
             completed:'=',
             incompleted:'_',
-            scale:1
+            tick_per_progress:1, //number of tick one progress step represents
         },
         percent: {
             color: '\x1b[1;36m', //cyan bold
@@ -74,7 +88,7 @@ function Bar(options) {
         }
     };
     this.timer = undefined;
-    this.stream = options.stream || process.stdout;
+
 
     for (let key1 in options.show){
         if(typeof options.show[key1]=='object'){
@@ -159,10 +173,10 @@ Bar.prototype.setTotal= function(total){
  *
  * - `label` Progress bar label
  *
- * @param {label|string} new value of total
+ * @param {label|string}
  * @api public
  */
-Bar.prototype.setLabel= function(label){
+Bar.prototype.setLabel = function(label){
 
     this.label=label;
 
@@ -170,6 +184,61 @@ Bar.prototype.setLabel= function(label){
 
 };
 
+/**
+ * Progress bar components
+ *
+ * - `type` Format type "percent" | "count" | "time" | "tick" | "bar"  
+ *
+ * @param {type|string} 
+ * @api public
+ */
+Bar.prototype.defaultFormats = function(type){
+
+    let str='';
+    if(type=='percent'){
+        str+=util.format(
+            '%s[%s %%] ',
+            this.show.percent.color,
+            ('  ' + Math.round(100 * this.counter / (this.total))).slice(-3)
+        );
+    }else if(type=='count') {
+        str += util.format(
+            '%s[%s(%s)] ',
+            this.show.count.color,
+            ('     ' + this.counter).slice(-String(this.total).length),
+            this.total
+        );
+    } else if(type=='time'){
+        str+=util.format(
+            '%s[%s sec] ',
+            this.show.time.color,
+            Math.round((new Date().valueOf() - this.timer) / 1000)
+        )
+    }else if(type=='tick'){
+        str+=this.show.tick.color + this.text+'\x1b[0;37m'; // end with white
+    }else if(type=='bar' && this.show.overwrite){
+
+        let n_dots= Math.round(this.show.bar.length *(this.counter / this.total));
+
+        let completed='';
+        let incompleted='';
+        for (let i = 0; i <n_dots; i++) {
+            completed += this.show.bar.completed || '.'
+        };
+
+        for (let i = 0; i <this.show.bar.length -n_dots; i++) {
+            incompleted += this.show.bar.incompleted || ' '
+        };
+
+        str+=util.format(
+            '%s[%s%s]',
+            this.show.bar.color,
+            completed,
+            incompleted
+        );
+    }
+    return str
+}
 
 /**
  * Draw the progress bar
@@ -178,100 +247,101 @@ Bar.prototype.setLabel= function(label){
  */
 Bar.prototype._draw=function(){
 
-    let count='     ' + this.counter + '(' + this.total + ')';
+    if(this.draw){
+        this.draw(this, _stream);
+        return
+    }
+
+    // let count='     ' + this.counter + '(' + this.total + ')';
     let info='';
 
-    if (this.show.active.percent) {
-        info = this.show.percent.color + '[' + ('  ' + Math.round(100 * this.counter / (this.total))).slice(-3) + ' %] ';
-    }
 
-    if (this.show.active.count) {
-        info += this.show.count.color + '[' + (count).slice(count.length - (String(this.total).length * 2 + 2), count.length) + '] ';
-    }
+    info+=this.defaultFormats(this.show.active.percent ? 'percent' : '');
+    info+=this.defaultFormats(this.show.active.percent ? 'count' : '');
+    info+=this.defaultFormats(this.show.active.percent ? 'time' : '');
 
-    if (this.show.active.time) {
-        var val = Math.round((new Date().valueOf() - this.timer) / 1000);
-        info+=this.show.time.color + '[' + val + ' sec] ';
-    }
-    info+=this.show.tick.color + this.text+'\x1b[0;37m';
+    info+=this.defaultFormats('tick');
 
     if (this.show.overwrite) {
 
-        let str='\r'+this.show.label.color + this.label + ': ';
+        info=util.format('%s%s',
+                    this.defaultFormats(this.show.active.bar ? 'bar' : ''),
+                    info);
 
-        if (this.show.active.bar){
-            str+=this.show.bar.color +'[';
-            let n_dots= Math.round(this.show.bar.length *(this.counter / this.total));
+        let progress=util.format(
+            '\r%s%s: %s',
+            this.show.label.color,
+            this.label,
+            info
+        );
 
-            for (let i = 0; i <n_dots; i++) {
-                str += this.show.bar.completed || '.'
-            };
+        _stream.write(progress)
 
-            for (let i = 0; i <this.show.bar.length -n_dots; i++) {
-                str += this.show.bar.incompleted || ' '
-            };
+    }else  {
 
-            str+='] ';
-        };
-
-
-        str+=info;
-
-        this.stream.write(str)
-
-    }
-
-    if ( !this.show.overwrite ) {
-
-        let n = this.show.bar.length || 10;
+        let n = this.show.bar.length | 10;
         let str = '';
+        let ticked=false;
 
+        // start bar
         if (this.counter - 1 == 0) {
 
-            str += this.show.label.color + this.label + '\n'+this.show.bar.color +'['+(this.show.bar.completed || '.');
-            this.stream.write(str);
-            return
+            str+=util.format(
+                '%s%s\n',
+                this.show.label.color,
+                this.label
+            );
+
         }
 
+        if (this.show.active.bar) {
 
-        if (this.show.active.bar){
 
-            if (this.counter == this.total) {
+            // if new line
+            if (this.new_line) {
+                str += this.show.bar.color + '[';
+                this.new_line=false;
+            }
 
-                let space = '';
-                if(this.total>this.show.bar.length)
-                    for (let i = 0; i < n - 1 - ((this.counter - 1) % n); i++) {
-                        space += ' '
-                    }
 
-                if ((this.counter % n) == 1) {
-                    str += this.show.bar.color + '['
+            // add tick
+             if (this.bar_tick < this.counter / this.show.bar.tick_per_progress) {
+                this.bar_tick++;
+                str += this.show.bar.completed || '.'
+                ticked=true;
+            }else{
+                ticked=false;
+            }
+
+            // if at end of row
+            if ((this.bar_tick % this.show.bar.length)==0 && ticked) {
+                str +='] ';
+                this.new_line=true
+            }
+        }
+
+        // add info at end of row
+        if ((this.bar_tick % this.show.bar.length)==0 && ticked) {
+
+            str+=info+'\n';
+
+        }else if(this.counter == this.total) {
+
+            let space = '';
+
+            if ((this.bar_tick % this.show.bar.length) < this.show.bar.length-1) {
+
+                for (let i = 0; i < this.show.bar.length - 1 - ((this.bar_tick-1) % this.show.bar.length); i++) {
+                    space += ' '
                 }
-                str += (this.show.bar.completed || '.')+'] ' + space
-
-            } else if (((this.counter - 1) % n) == 0) {
-
-                str += this.show.bar.color  + '['+(this.show.bar.completed || '.')
-
             }
-            else if (((this.counter - 1) % n) == n - 1) {
-
-                str += (this.show.bar.completed || '.')+'] ';
-
-            } else {
-
-                str += (this.show.bar.completed || '.');
-            }
-
+            str+='] '+space+info+'\n';
         }
-        if(this.counter == this.total || (((this.counter - 1) % n) == n - 1)){
-            str+=info+'\n'
-        }
-        this.stream.write(str)
 
+        _stream.write(str)
     }
 };
 
 
 
-module.exports = (options)=>{return new Bar(options)};
+module.exports = (options, draw)=>{return new Bar(options, draw)};
