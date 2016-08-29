@@ -59,7 +59,7 @@ let timer = setInterval(()=>{
        - `tick` Object with the following keys:
            - `color` ANSI color
        - `stream` Stream to write to (process.stdout default)
-- `draw` Custom draw function '()=>(bar, stream){ The magic ... )
+ - `draw` Custom draw function `()=>(bar, stream){ The magic ... )`
 
 ### `bar.tick([text])`
 Increment the bar with one
