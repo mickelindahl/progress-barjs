@@ -334,7 +334,7 @@ Bar.prototype._draw=function(){
                     space += ' '
                 }
             }
-            str+='] '+space+info+'\n';
+            str+='] '+space+info;
         }
 
         _stream.write(str)
