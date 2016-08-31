@@ -43,6 +43,7 @@ lab.experiment('bar', ()=>{
         let options = {
             label: 'Progress bar',
             total: 5,
+            show:{overwrite:false}
         };
 
         let bar = Bar(options);
@@ -57,7 +58,7 @@ lab.experiment('bar', ()=>{
                 if (bar.complete) {
                     clearInterval(timer);
                     bar.setLabel('Progress bar after reset')
-                        .setTotal(10)
+                        .setTotal(9)
                         .reset();
                     if (callback){callback(options,()=>{done()});}
                 }
@@ -74,14 +75,15 @@ lab.experiment('bar', ()=>{
 
         let options = {
             label: 'Progress bar without overwrite',
-            total: 5,
+            total: 10,
 
             show:{
                 overwrite:false,
                 bar:{
                     color:'\x1b[0;31m',
                     completed:'.',
-                    tick_per_progress:2
+                    tick_per_progress:2,
+                    length:20
                 },
                 percent:{color:'\x1b[1;37m'},
                 count:{color:'\x1b[0;36m'},

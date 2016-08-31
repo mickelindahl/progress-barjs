@@ -146,6 +146,7 @@ Bar.prototype.tick = function (text) {
 Bar.prototype.reset= function(){
 
     this.counter=0;
+    this.bar_tick=0;
     this.complete=false;
     this.new_line=true;
 
@@ -284,22 +285,16 @@ Bar.prototype._draw=function(){
         let str = '';
         let ticked=false;
 
-        // start bar
-        if (this.counter - 1 == 0) {
-
-            str+=util.format(
-                '%s%s\n',
-                this.show.label.color,
-                this.label
-            );
-
-        }
-
         if (this.show.active.bar) {
 
 
             // if new line
             if (this.new_line) {
+                str+=util.format(
+                    '%s%s ',
+                    this.show.label.color,
+                    this.label
+                );
                 str += this.show.bar.color + '[';
                 this.new_line=false;
             }
