@@ -209,3 +209,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 2.0.0 Change api for draw function, bug fix, circular dependencies when stringify a bar
 * 2.0.1 Bug fix
 * 2.0.2 Bug fix
+* 2.0.3 Bug fix

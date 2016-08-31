@@ -1,6 +1,6 @@
 {
   "name": "progress-barjs",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A customizable progress bar for NodeJS",
   "main": "index.js",
   "scripts": {

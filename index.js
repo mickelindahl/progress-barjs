@@ -147,6 +147,7 @@ Bar.prototype.reset= function(){
 
     this.counter=0;
     this.complete=false;
+    this.new_line=true;
 
     return this
 
