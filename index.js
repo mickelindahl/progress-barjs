@@ -12,6 +12,7 @@ let _stream;
  *   - `total` Total number of ticks to complete
  *   - `append` If true show accumulated tick text separated with comma
  *   - `show` Show configuration object with the following keys:
+ *      - `date` Include date before label
  *      - `active` Which bar items to show
  *          - `bar` true|false
  *          - `percent` true|false
@@ -57,6 +58,7 @@ function Bar(options, draw) {
     this.new_line=true;
 
     this.show = {
+        date : false,
         active: {
             bar:true,
             percent:true,
@@ -114,6 +116,7 @@ Bar.prototype.tick = function (text) {
 
     if(this.counter==0  && this.show.time){
         this.timer=new Date().valueOf();
+        if (this.show.date){this.show.date=new Date().toJSON()}
     }
 
     this.counter += 1;
@@ -271,12 +274,17 @@ Bar.prototype._draw=function(){
                     info);
 
         let progress=util.format(
-            '\r%s%s: %s',
+            '%s%s: %s',
             this.show.label.color,
             this.label,
             info
         );
 
+        if (this.show.date){
+            progress='['+this.show.date+'] '+progress;
+        }
+
+        progress='\r'+progress;
         _stream.write(progress)
 
     }else  {
@@ -295,6 +303,11 @@ Bar.prototype._draw=function(){
                     this.show.label.color,
                     this.label
                 );
+
+                if (this.show.date){
+                    str='['+this.show.date+'] '+str;
+                }
+
                 str += this.show.bar.color + '[';
                 this.new_line=false;
             }

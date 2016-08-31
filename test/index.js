@@ -22,6 +22,7 @@ lab.experiment('bar', ()=>{
         let options = {
             label: 'Progress bar',
             total: 30,
+            show:{date:true}
         };
 
         let bar = Bar(options);
@@ -74,16 +75,17 @@ lab.experiment('bar', ()=>{
         console.log('\n');
 
         let options = {
-            label: 'Progress bar without overwrite',
-            total: 10,
+            label: 'Without overwrite',
+            total: 33,
 
             show:{
+                date:true,
                 overwrite:false,
                 bar:{
                     color:'\x1b[0;31m',
                     completed:'.',
                     tick_per_progress:2,
-                    length:20
+                    length:6
                 },
                 percent:{color:'\x1b[1;37m'},
                 count:{color:'\x1b[0;36m'},

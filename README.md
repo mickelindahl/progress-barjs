@@ -36,6 +36,7 @@ let timer = setInterval(()=>{
     - `total` Total number of ticks to complete
     - `append` If true show accumulated tick text separated with comma
     - `show` Show configuration object with the following keys:
+       - `date` Include date before label
        - `active` Which bars items to show
            - `bar` true|false
            - `percent` true|false
