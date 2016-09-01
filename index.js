@@ -9,16 +9,20 @@ let _stream;
 /**
  * - `options` Object with the following keys:
  *   - `label` Process bar label
+ *   - `info` Specific info about type of data being processed
  *   - `total` Total number of ticks to complete
  *   - `append` If true show accumulated tick text separated with comma
  *   - `show` Show configuration object with the following keys:
  *      - `date` Include date before label
  *      - `active` Which bar items to show
+ *          - `date` true|false
  *          - `bar` true|false
  *          - `percent` true|false
  *          - `count` true|false
  *          - `time` true|false
  *      - `overwrite` If bar should do line overwrite true|false
+ *      - `date` Include date before label
+ *          - `color` ANSI color as string
  *      - `label` Object with the following keys:
  *          - `color` ANSI color as string
  *      - `bar` Object with the following keys:
@@ -49,25 +53,33 @@ function Bar(options, draw) {
 
     this.draw=draw;
 
-    this.label = options.label || 'Processing';
+    this.label = options.label || ' BAR';
+    this.info = options.info || '';
     this.total = options.total;
     this.counter = 0;
     this.bar_tick=0;
     this.append = options.append;
     this.complete = false;
     this.new_line=true;
+    this.date=undefined;
 
     this.show = {
-        date : false,
         active: {
+            date:false,
             bar:true,
             percent:true,
             count:true,
             time:true
         },
         overwrite: true,
+        date : {
+            color: '\x1b[0;37m', // white
+        },
         label:{
-            color: '\x1b[1;37m', // bold
+            color: '\x1b[1;36m', // bold
+        },
+        info:{
+            color: '\x1b[0;37m', // bold
         },
         bar: {
             length: 10,
@@ -116,7 +128,7 @@ Bar.prototype.tick = function (text) {
 
     if(this.counter==0  && this.show.time){
         this.timer=new Date().valueOf();
-        if (this.show.date){this.show.date=new Date().toJSON()}
+        if (this.show.active.date){this.date=new Date().toJSON()}
     }
 
     this.counter += 1;
@@ -173,6 +185,7 @@ Bar.prototype.setTotal= function(total){
 
 };
 
+
 /**
  * Change the label of the progress bar
  *
@@ -184,6 +197,22 @@ Bar.prototype.setTotal= function(total){
 Bar.prototype.setLabel = function(label){
 
     this.label=label;
+
+    return this
+
+};
+
+/**
+ * Change info of the progress bar
+ *
+ * - `info` Progress bar info
+ *
+ * @param {info|string}
+ * @api public
+ */
+Bar.prototype.setInfo = function(info){
+
+    this.info=info;
 
     return this
 
@@ -236,11 +265,15 @@ Bar.prototype.defaultFormats = function(type){
         };
 
         str+=util.format(
-            '%s[%s%s]',
+            '%s[%s%s] ',
             this.show.bar.color,
             completed,
             incompleted
         );
+    }else if(type=='date'){
+        str+=this.show.date.color+'['+this.date+'] '
+    }else if(type=='info'){
+        str+=this.show.info.color+': '+this.info+' '
     }
     return str
 }
@@ -257,14 +290,11 @@ Bar.prototype._draw=function(){
         return
     }
 
-    // let count='     ' + this.counter + '(' + this.total + ')';
     let info='';
-
 
     info+=this.defaultFormats(this.show.active.percent ? 'percent' : '');
     info+=this.defaultFormats(this.show.active.percent ? 'count' : '');
     info+=this.defaultFormats(this.show.active.percent ? 'time' : '');
-
     info+=this.defaultFormats('tick');
 
     if (this.show.overwrite) {
@@ -274,14 +304,15 @@ Bar.prototype._draw=function(){
                     info);
 
         let progress=util.format(
-            '%s%s: %s',
+            '%s%s%s%s',
             this.show.label.color,
             this.label,
+            this.defaultFormats(this.show.info ? 'info' : ''),
             info
         );
 
-        if (this.show.date){
-            progress='['+this.show.date+'] '+progress;
+        if (this.show.active.date){
+            progress=this.defaultFormats(this.show.active.date ? 'date' : '')+progress;
         }
 
         progress='\r'+progress;
@@ -291,53 +322,60 @@ Bar.prototype._draw=function(){
 
         let n = this.show.bar.length | 10;
         let str = '';
-        let ticked=false;
+        let ticked=1;
+
+        //tick
+        if (this.bar_tick < this.counter / this.show.bar.tick_per_progress) {
+            ticked=1;
+        }else{
+            ticked++;
+        }
 
         if (this.show.active.bar) {
-
 
             // if new line
             if (this.new_line) {
                 str+=util.format(
-                    '%s%s ',
+                    '%s%s%s',
                     this.show.label.color,
-                    this.label
+                    this.label,
+                    this.defaultFormats(this.show.info ? 'info' : '')
                 );
 
-                if (this.show.date){
-                    str='['+this.show.date+'] '+str;
+                if (this.show.active.date){
+                    str=this.show.date.color+'['+this.date+'] '+str;
                 }
 
                 str += this.show.bar.color + '[';
                 this.new_line=false;
             }
 
-
             // add tick
              if (this.bar_tick < this.counter / this.show.bar.tick_per_progress) {
                 this.bar_tick++;
                 str += this.show.bar.completed || '.'
-                ticked=true;
-            }else{
-                ticked=false;
-            }
+             }
 
             // if at end of row
-            if ((this.bar_tick % this.show.bar.length)==0 && ticked) {
+            if ((this.bar_tick % this.show.bar.length)==0 && ticked==1) {
                 str +='] ';
-                this.new_line=true
+
             }
         }
 
+
+        // console.log(ticked)
+
         // add info at end of row
-        if ((this.bar_tick % this.show.bar.length)==0 && ticked) {
+        if ((this.bar_tick % this.show.bar.length)==0 && ticked==this.show.bar.tick_per_progress) {
 
             str+=info+'\n';
+            this.new_line=true
 
         }else if(this.counter == this.total) {
 
             let space = '';
-            if (((this.bar_tick % this.show.bar.length) < this.show.bar.length-1) && this.bar_tick>this.show.bar.length){
+            if (((this.bar_tick % this.show.bar.length) <= this.show.bar.length-1) && this.bar_tick>this.show.bar.length){
 
                 for (let i = 0; i < this.show.bar.length - 1 - ((this.bar_tick-1) % this.show.bar.length); i++) {
                     space += ' '

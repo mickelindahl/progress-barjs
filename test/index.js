@@ -20,9 +20,8 @@ lab.experiment('bar', ()=>{
     lab.test('tick', (done)=>{
         console.log('')
         let options = {
-            label: 'Progress bar',
+            info: 'Progress stuff',
             total: 30,
-            show:{date:true}
         };
 
         let bar = Bar(options);
@@ -38,13 +37,14 @@ lab.experiment('bar', ()=>{
         }, 100);
     });
 
-    lab.test('two in a row', (done)=> {
+    lab.test('two in a row with date', (done)=> {
         console.log('\n');
 
         let options = {
-            label: 'Progress bar',
+            info: 'Progress stuff',
             total: 5,
-            show:{overwrite:false}
+            show:{
+                active:{date:true}}
         };
 
         let bar = Bar(options);
@@ -54,11 +54,11 @@ lab.experiment('bar', ()=>{
 
             timer = setInterval(()=>{
 
-                // if (bar.counter>7){return}
+                // if (bar.counter>5){return}
                 bar.tick('Tick number '+i);
                 if (bar.complete) {
                     clearInterval(timer);
-                    bar.setLabel('Progress bar after reset')
+                    bar.setInfo('Progress other stuff after reset')
                         .setTotal(9)
                         .reset();
                     if (callback){callback(options,()=>{done()});}
@@ -75,11 +75,11 @@ lab.experiment('bar', ()=>{
         console.log('\n');
 
         let options = {
-            label: 'Without overwrite',
-            total: 33,
+            info: 'Without overwrite',
+            total: 36,
 
             show:{
-                date:true,
+                active:{date:true},
                 overwrite:false,
                 bar:{
                     color:'\x1b[0;31m',
@@ -96,7 +96,7 @@ lab.experiment('bar', ()=>{
         let bar = Bar(options);
         let i=1;
         let timer = setInterval(()=>{
-            // if (bar.counter>25){return}
+            // if (bar.counter>30){return}
             bar.tick('Tick number '+i);
             if (bar.complete) {
                 clearInterval(timer);
@@ -147,11 +147,25 @@ lab.experiment('bar', ()=>{
             i++;
         }, 100);
     });
-
-
+    
     lab.test('test JSON.stringify', (done)=> {
         let bar = Bar();
         bar=JSON.stringify(bar);
+        Code.expect(bar).to.be.a.string()
+        done()
+
+    });
+
+    lab.test('setLabel', (done)=>{
+        console.log('')
+        let options = {
+            info: 'Progress stuff',
+            total: 30,
+        };
+
+        let bar = Bar(options);
+        bar.setLabel('BAAAR');
+        Code.expect(bar.label=='BAAAR')
         done()
 
     });

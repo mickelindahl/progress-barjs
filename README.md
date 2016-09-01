@@ -11,19 +11,17 @@ A small library that shows a progress bar
 
 ## Usage
 ```js
-const Bar = require('progress-barjs');
 let options = {
-    label: 'Progress bar',
+    info: 'Progress stuff',
     total: 30,
-    time:true
 };
 
 let bar = Bar(options);
-let i=1;
+let i = 1;
 let timer = setInterval(()=>{
 
-    bar.tick('Tick number '+i);
-    if (bar.complete){clearInterval(timer);}
+    bar.tick('Tick number ' + i);
+    if (bar.complete) {clearInterval(timer);}
     i++;
 }, 100);
 ```
@@ -33,16 +31,19 @@ let timer = setInterval(()=>{
 
 - `options` Object with the following keys:
     - `label` Process bar label
+    - `info` Specific info about type of data being processed
     - `total` Total number of ticks to complete
     - `append` If true show accumulated tick text separated with comma
     - `show` Show configuration object with the following keys:
-       - `date` Include date before label
        - `active` Which bars items to show
+           - `date` true|false
            - `bar` true|false
            - `percent` true|false
            - `count` true|false
            - `time` true|false
        - `overwrite` If bar should do line overwrite true|false
+       - `date` Include date before label
+           - `color` ANSI color as string
        - `label` Object with the following keys:
            - `color` ANSI color as string
        - `bar` Object with the following keys:
@@ -77,32 +78,37 @@ Change total ticks of the progress bar
 Change the label of the progress bar
 - `label` Progress bar label
 
+### `bar.setInfo(info)`
+Change the info of the progress bar
+- `info` Progress bar info
+
+
 ### `bar.defaultFormat(type)`
 Progress bar components
-- `type` Format type "percent" | "count" | "time" | "tick" | "bar"  
+- `type` Format type "percent" | "count" | "time" | "tick" | "bar"  | "date" | "info"
 
 ### Examples
 Two in a row:
 ```js
 let options = {
-    label: 'Progress bar',
-    total: 5
+    info: 'Progress stuff',
+    total: 5,
+    show:{
+        active:{date:true}}
 };
 
 let bar = Bar(options);
 let timer= (options, callback) => {
 
     let i = 1;
-
     timer = setInterval(()=>{
-    
+
         bar.tick('Tick number '+i);
         if (bar.complete) {
             clearInterval(timer);
-            bar.setLabel('Progress bar after reset')
-                .setTotal(10)
+            bar.setInfo('Progress other stuff after reset')
+                .setTotal(9)
                 .reset();
-            if (callback){callback(options);}
         }
         i++;
     }, 100);
@@ -114,13 +120,17 @@ timer(options, timer)
 Without overwrite and change of color:
 ```js
 let options = {
-    label: 'Progress bar without overwrite',
-    total: 33,
+    info: 'Without overwrite',
+    total: 36,
     show:{
+        active:{date:true},
         overwrite:false,
         bar:{
             color:'\x1b[0;31m',
-            completed:'.'},
+            completed:'.',
+            tick_per_progress:2,
+            length:6
+        },
         percent:{color:'\x1b[1;37m'},
         count:{color:'\x1b[0;36m'},
         time:{color:'\x1b[0;34m'}
@@ -132,12 +142,9 @@ let i=1;
 let timer = setInterval(()=>{
 
     bar.tick('Tick number '+i);
-    if (bar.complete) {
-        clearInterval(timer);
-    }
+    if (bar.complete) { clearInterval(timer);}
     i++;
 }, 100);
-timer(options, timer)
 ```
 ![](https://raw.githubusercontent.com/mickelindahl/progress-barjs/master/screenshots/example2.PNG)
 
@@ -172,11 +179,9 @@ let draw=(bar, stream)=>{
 let bar = Bar(options, draw);
 let i=1;
 let timer = setInterval(()=>{
-    // if (bar.counter>25){return}
+
     bar.tick('Tick number '+i);
-    if (bar.complete) {
-        clearInterval(timer);
-    }
+    if (bar.complete) {clearInterval(timer);}
     i++;
 }, 100);
 timer(options, timer)
@@ -211,3 +216,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 2.0.1 Bug fix
 * 2.0.2 Bug fix
 * 2.0.3 Bug fix
+* 2.1.0 added function `bar.setInfo(info)`, added options to show date, introduced info field and bug fixes
