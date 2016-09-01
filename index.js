@@ -58,6 +58,7 @@ function Bar(options, draw) {
     this.total = options.total;
     this.counter = 0;
     this.bar_tick=0;
+    this.sub_tick=1;
     this.append = options.append;
     this.complete = false;
     this.new_line=true;
@@ -322,13 +323,13 @@ Bar.prototype._draw=function(){
 
         let n = this.show.bar.length | 10;
         let str = '';
-        let ticked=1;
+
 
         //tick
         if (this.bar_tick < this.counter / this.show.bar.tick_per_progress) {
-            ticked=1;
+            this.sub_tick=1;
         }else{
-            ticked++;
+            this.sub_tick++;
         }
 
         if (this.show.active.bar) {
@@ -357,7 +358,7 @@ Bar.prototype._draw=function(){
              }
 
             // if at end of row
-            if ((this.bar_tick % this.show.bar.length)==0 && ticked==1) {
+            if ((this.bar_tick % this.show.bar.length)==0 && this.sub_tick==1) {
                 str +='] ';
 
             }
@@ -367,7 +368,7 @@ Bar.prototype._draw=function(){
         // console.log(ticked)
 
         // add info at end of row
-        if ((this.bar_tick % this.show.bar.length)==0 && ticked==this.show.bar.tick_per_progress) {
+        if ((this.bar_tick % this.show.bar.length)==0 && this.sub_tick==this.show.bar.tick_per_progress) {
 
             str+=info+'\n';
             this.new_line=true

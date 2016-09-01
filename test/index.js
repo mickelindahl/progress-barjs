@@ -42,8 +42,10 @@ lab.experiment('bar', ()=>{
 
         let options = {
             info: 'Progress stuff',
-            total: 5,
+            total: 40,
             show:{
+                overwrite:false,
+                bar:{tick_per_progress:4},
                 active:{date:true}}
         };
 

@@ -216,4 +216,5 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 2.0.1 Bug fix
 * 2.0.2 Bug fix
 * 2.0.3 Bug fix
-* 2.1.0 added function `bar.setInfo(info)`, added options to show date, introduced info field and bug fixes
+* 2.1.0 Added function `bar.setInfo(info)`, added options to show date, introduced info field and bug fixes
+* 2.1.1 Bug fix
