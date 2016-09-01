@@ -30,8 +30,8 @@ let timer = setInterval(()=>{
 ### `Bar([options][,draw])`
 
 - `options` Object with the following keys:
-    - `label` Process bar label
-    - `info` Specific info about type of data being processed
+    - `label` Progress bar label
+    - `info` Specific info about type of data being progressed
     - `total` Total number of ticks to complete
     - `append` If true show accumulated tick text separated with comma
     - `show` Show configuration object with the following keys:

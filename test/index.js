@@ -138,7 +138,7 @@ lab.experiment('bar', ()=>{
         let bar = Bar(options, draw);
         let i=1;
         let timer = setInterval(()=>{
-            // if (bar.counter>20){return}
+            if (bar.counter>20){return}
             bar.tick('Tick number '+i);
             if (bar.complete) {
                 clearInterval(timer);
@@ -147,7 +147,7 @@ lab.experiment('bar', ()=>{
             i++;
         }, 100);
     });
-    
+
     lab.test('test JSON.stringify', (done)=> {
         let bar = Bar();
         bar=JSON.stringify(bar);
