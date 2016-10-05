@@ -21,6 +21,8 @@ let _stream;
  *          - `count` true|false
  *          - `time` true|false
  *      - `overwrite` If bar should do line overwrite true|false
+ *      - `only_at_completed_rows` If bar ony should be written when a row have completed. Good option
+ *         when each print out generates a new row when bar is written to a file stream (e.g. logfile).
  *      - `date` Include date before label
  *          - `color` ANSI color as string
  *      - `label` Object with the following keys:
@@ -63,6 +65,7 @@ function Bar(options, draw) {
     this.complete = false;
     this.new_line=true;
     this.date=undefined;
+    this.row='';
 
     this.show = {
         active: {
@@ -73,6 +76,7 @@ function Bar(options, draw) {
             time:true
         },
         overwrite: true,
+        only_at_completed_rows:false,
         date : {
             color: '\x1b[0;37m', // white
         },
@@ -317,6 +321,11 @@ Bar.prototype._draw=function(){
         }
 
         progress='\r'+progress;
+
+        if (this.show.only_at_completed_rows && this.counter!=this.total){
+            return
+        }
+
         _stream.write(progress)
 
     }else  {
@@ -383,6 +392,15 @@ Bar.prototype._draw=function(){
                 }
             }
             str+='] '+space+info;
+        }
+
+        if (this.show.only_at_completed_rows && !this.new_line){
+            this.row+=str;
+            // console.log('hej')
+            return
+        }else if (this.show.only_at_completed_rows ){
+            str=this.row+str;
+            this.row=''
         }
 
         _stream.write(str)

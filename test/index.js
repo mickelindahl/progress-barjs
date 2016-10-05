@@ -18,10 +18,31 @@ lab.experiment('bar', ()=>{
     });
 
     lab.test('tick', (done)=>{
+        console.log('');
+        let options = {
+            info: 'Progress stuff',
+            total: 30,
+        };
+
+        let bar = Bar(options);
+        let i = 1;
+        let timer = setInterval(()=>{
+            // if (bar.counter>24){return}
+            bar.tick('Tick number ' + i);
+            if (bar.complete) {
+                clearInterval(timer);
+                done();
+            }
+            i++;
+        }, 100);
+    });
+
+    lab.test('tick only completed rows', (done)=>{
         console.log('')
         let options = {
             info: 'Progress stuff',
             total: 30,
+            show:{'only_at_completed_rows':true}
         };
 
         let bar = Bar(options);
@@ -45,7 +66,10 @@ lab.experiment('bar', ()=>{
             total: 40,
             show:{
                 overwrite:false,
-                bar:{tick_per_progress:4},
+                bar:{
+                    tick_per_progress:4,
+                    incompleted:'-'
+                },
                 active:{date:true}}
         };
 
@@ -92,6 +116,48 @@ lab.experiment('bar', ()=>{
                 percent:{color:'\x1b[1;37m'},
                 count:{color:'\x1b[0;36m'},
                 time:{color:'\x1b[0;34m'}
+
+            }
+        };
+
+        let bar = Bar(options);
+        let i=1;
+        let timer = setInterval(()=>{
+            // if (bar.counter>30){return}
+            bar.tick('Tick number '+i);
+            if (bar.complete) {
+                clearInterval(timer);
+                done();
+            }
+            i++;
+        }, 100);
+    });
+
+    lab.test('Without overwrite only at completed rows', (done)=> {
+        console.log('\n');
+
+        let options = {
+            info: 'Without overwrite only at completed rows',
+            total: 36,
+
+            show:{
+                active:{
+                    date:true,
+                    percent:false,
+                    count:false,
+                    time:false
+                },
+                overwrite:false,
+                only_at_completed_rows:true,
+                bar:{
+                    color:'\x1b[0;31m',
+                    completed:'.',
+                    tick_per_progress:2,
+                    length:6
+                },
+                label:{color:'\x1b[1;37m'},
+                info:{color:'\x1b[0;36m'},
+                tick:{color:'\x1b[0;34m'}
             }
         };
 
