@@ -417,7 +417,7 @@ Bar.prototype._draw=function(){
             // console.log('hej')
             return
         }else if (this.show.only_at_completed_rows ){
-            str=this.row+str;
+            str=this.row+str+'\n';
             this.row=''
         }
 
