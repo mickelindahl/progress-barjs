@@ -58,6 +58,36 @@ lab.experiment('bar', ()=>{
         }, 100);
     });
 
+    lab.test('tick chunk at download', (done)=>{
+        console.log('');
+        var https = require('https');
+
+        console.log('');
+        let bar = Bar({ label: 'Downloading'});
+
+        var req = https.request({
+            host: 'download.github.com',
+            port: 443,
+            path: '/visionmedia-node-jscoverage-0d4608a.zip'
+        });
+
+        req.on('response', function(res){
+            var len = parseInt(res.headers['content-length'], 10);
+
+            bar.setTotal(len);
+
+            res.on('data', function (data) {
+                bar.tickChunk(data.length);
+            });
+
+            res.on('end', function () {
+                done();
+            });
+        });
+
+        req.end();
+    });
+
     lab.test('two in a row with date', (done)=> {
         console.log('\n');
 

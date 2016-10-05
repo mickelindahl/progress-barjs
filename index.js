@@ -159,6 +159,24 @@ Bar.prototype.tick = function (text) {
 
 
 /**
+ *  Increment the bar with variable amount
+ *
+ * - `chunk` chunk to tick.
+ * - `text` shown at tick.
+ *
+ * @param {text|object} text to show at tick
+ * @api public
+ */
+Bar.prototype.tickChunk = function (chunk, text) {
+
+    text=text ? text : '';
+
+    for (let i = 0; i<chunk; i++){
+        this.tick(text);
+    }
+};
+
+/**
  * Reset the progress bar
  *
  * @api public

@@ -1,6 +1,6 @@
 {
   "name": "progress-barjs",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A customizable progress bar for NodeJS",
   "main": "index.js",
   "scripts": {
@@ -36,7 +36,9 @@
   "homepage": "https://github.com/mickelindahl/progress-barjs#readme",
   "devDependencies": {
     "code": "^3.0.2",
-    "lab": "^11.0.1",
-    "coveralls": "^2.11.12"
+    "coveralls": "^2.11.12",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "lab": "^11.0.1"
   }
 }

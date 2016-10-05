@@ -69,6 +69,11 @@ let timer = setInterval(()=>{
 Increment the bar with one
 - `text` Text shown at tick.
 
+### `bar.tickChunk(chunk, [text])`
+Increment the bar with variable amount
+- `chunk` chunk to tick.
+- `text` shown at tick.
+
 ### `bar.reset()`
 Reset the progress bar
 
@@ -220,3 +225,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 * 2.0.3 Bug fix
 * 2.1.0 Added function `bar.setInfo(info)`, added options to show date, introduced info field and bug fixes
 * 2.1.1 Bug fix
+* 2.2.0 Added option show.only_at_completed_rows and function `bar.tickChunk(chunk, [text])`: 
