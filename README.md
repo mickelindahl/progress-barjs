@@ -42,6 +42,8 @@ let timer = setInterval(()=>{
            - `count` true|false
            - `time` true|false
        - `overwrite` If bar should do line overwrite true|false
+       - `only_at_completed_rows` If bar ony should be written when a row have completed. Good option
+          when each print out generates a new row when bar is written to a file stream (e.g. logfile).
        - `date` Include date before label
            - `color` ANSI color as string
        - `label` Object with the following keys:
