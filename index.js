@@ -410,6 +410,7 @@ Bar.prototype._draw=function(){
                 }
             }
             str+='] '+space+info;
+            this.new_line=true
         }
 
         if (this.show.only_at_completed_rows && !this.new_line){
